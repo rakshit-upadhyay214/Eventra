@@ -7,10 +7,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,44 +22,40 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name="tickets")
+@Table(name="ticket_validation")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
-public class Ticket {
+public class TicketValidation {
 
     @Id
-    @Column(name="ticket_id", updatable = false, nullable = false)
+    @Column(name="ticket_validation_id", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name="ticket_status", nullable = false)
+    @Column(name="ticket_validation_status", nullable = false)
     @Enumerated(EnumType.STRING)
-    private TicketStatusEnum status;
+    private TicketValidationEnum status;
+
+    @Column(name="ticket_validation_method", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TicketValidationMethodEnum validationMethod;
 
     @CreatedDate
-    @Column(name="create_at")
+    @Column(name="created_at", updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ticket_type_id")
-    private TicketType ticketType;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchaser_id")
-    private User purchaser;
-
-    @OneToMany(mappedBy = "ticket", cascade = CascadeType.ALL)
-    private List<TicketValidation> validations = new ArrayList<>();
+    @ManyToOne(fetch= FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ticket_id")
+    private Ticket ticket;
 
 }
