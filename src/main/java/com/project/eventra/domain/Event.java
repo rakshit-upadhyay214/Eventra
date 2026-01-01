@@ -27,24 +27,24 @@ public class Event {
     private String venue;
 
     @Column(name="event_start")
-    private LocalDateTime event_start;
+    private LocalDateTime eventStart;
 
     @Column(name="event_end")
-    private LocalDateTime event_end;
+    private LocalDateTime eventEnd;
 
     @Column(name="sales_start")
-    private LocalDateTime sales_start;
+    private LocalDateTime salesStart;
 
     @Column(name="sales_end")
-    private LocalDateTime sales_end;
+    private LocalDateTime salesEnd;
 
     @CreatedDate
     @Column(name="created_at")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name="updated_at")
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -59,5 +59,9 @@ public class Event {
 
     @ManyToMany(mappedBy = "staffingEvent")
     private List<User> staff = new ArrayList<>();
+
+    @OneToMany(mappedBy="event", cascade = CascadeType.ALL)
+    private List<TicketType> ticketTypes = new ArrayList<>();
+
     
 }
