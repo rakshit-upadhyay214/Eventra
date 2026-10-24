@@ -42,6 +42,18 @@ public class Event {
     @Column(name="created_at")
     private LocalDateTime createdAt;
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Event event = (Event) o;
+        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(venue, event.venue) && Objects.equals(eventStart, event.eventStart) && Objects.equals(eventEnd, event.eventEnd) && Objects.equals(salesStart, event.salesStart) && Objects.equals(salesEnd, event.salesEnd) && Objects.equals(createdAt, event.createdAt) && Objects.equals(updatedAt, event.updatedAt) && status == event.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, venue, eventStart, eventEnd, salesStart, salesEnd, createdAt, updatedAt, status);
+    }
+
     @LastModifiedDate
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
